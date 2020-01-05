@@ -1,10 +1,16 @@
-import {CommandLineAction, CommandLineIntegerParameter, CommandLineStringParameter} from "@microsoft/ts-command-line";
+import {
+  CommandLineAction,
+  CommandLineFlagParameter,
+  CommandLineIntegerParameter,
+  CommandLineStringParameter,
+} from "@microsoft/ts-command-line";
 import * as fs from "fs";
 import * as puppeteer from "puppeteer-core";
 import { Downloader, IArticleInformation } from "./downloader";
 
 export class RunAction extends CommandLineAction {
   private chrome: CommandLineStringParameter;
+  private noChromeHeadless: CommandLineFlagParameter;
   private username: CommandLineStringParameter;
   private password: CommandLineStringParameter;
   private bookId: CommandLineIntegerParameter;
@@ -20,6 +26,7 @@ export class RunAction extends CommandLineAction {
   protected async onExecute() { // abstract
     const browser = await puppeteer.launch({
       executablePath: this.chrome.value,
+      headless: !this.noChromeHeadless.value,
     });
     try {
       await this.run(browser);
@@ -34,6 +41,10 @@ export class RunAction extends CommandLineAction {
       description: "The path of Chrome/Chromium browser executor.",
       parameterLongName: "--chrome",
       parameterShortName: "-c",
+    });
+    this.noChromeHeadless = this.defineFlagParameter({
+      description: "Launch Chrome/Chromium browser not in headless mode.",
+      parameterLongName: "--no-chrome-headless",
     });
     this.username = this.defineStringParameter({
       argumentName: "USERNAME",
@@ -76,14 +87,14 @@ export class RunAction extends CommandLineAction {
   <title>${article.title}</title>
 </head>
 <body>`
-+ article.sections.map((s) => {
-  return `<h1>${s.title}</h1>
+      + article.sections.map((s) => {
+        return `<h1>${s.title}</h1>
 ` + s.subsections.map((ss) => {
-  return `<h2>${ss.title}</h2>
+          return `<h2>${ss.title}</h2>
 ` + ss.contentHtml;
-}).join("");
-}).join("")
-+ `</body>
+        }).join("");
+      }).join("")
+      + `</body>
 </html>
 `;
   }
