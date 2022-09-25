@@ -1,6 +1,6 @@
 import {
   CommandLineFlagParameter, CommandLineParser,
-} from "@microsoft/ts-command-line";
+} from "@rushstack/ts-command-line";
 import { loggerFactory } from "./logging";
 import { RunAction } from "./run";
 

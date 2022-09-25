@@ -18,3 +18,5 @@ node .\bin\index.js run --chrome <Chrome Path> -u <QiDian username> -p <QiDian p
 ```
 
 例如小说的目录页在 https://book.qidian.com/info/1011280743#Catalog 那么它的 BookID 就是 1011280743。
+
+如果报错的话，可以加上参数 `--no-chrome-headless` 看看是怎么回事。

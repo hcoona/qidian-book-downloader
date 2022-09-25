@@ -34,7 +34,11 @@ export class Downloader {
 
   constructor(browser: puppeteer.Browser, options: IDownloaderOptions) {
     this.browser = browser;
-    this.throttler = new TokenBucket(5, 2, "second");
+    this.throttler = new TokenBucket({
+      bucketSize: 5,
+      tokensPerInterval: 2,
+      interval: "second",
+    });
     this.options = options;
   }
 
@@ -79,7 +83,7 @@ export class Downloader {
 
   private acquire(count: number): Promise<void> {
     return new Promise((resolve) => {
-      this.throttler.removeTokens(count, () => resolve());
+      this.throttler.removeTokens(count).then(() => resolve());
     });
   }
 

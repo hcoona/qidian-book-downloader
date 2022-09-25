@@ -278,3 +278,6 @@ $RECYCLE.BIN/
 .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,node,macos,linux,windows,visualstudiocode,yarn
+
+# Build ECMAScript files.
+/bin

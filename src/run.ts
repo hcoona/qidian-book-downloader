@@ -3,7 +3,7 @@ import {
   CommandLineFlagParameter,
   CommandLineIntegerParameter,
   CommandLineStringParameter,
-} from "@microsoft/ts-command-line";
+} from "@rushstack/ts-command-line";
 import * as fs from "fs";
 import * as puppeteer from "puppeteer-core";
 import { Downloader, IArticleInformation } from "./downloader";
