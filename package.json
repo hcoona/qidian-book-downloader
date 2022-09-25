@@ -19,7 +19,8 @@
     "limiter": "^2.1.0",
     "promise-retry": "^2.0.1",
     "puppeteer-core": "^18.0.5",
-    "typescript-logging": "^1.0.1"
+    "typescript-logging": "^2.0.2",
+    "typescript-logging-log4ts-style": "^2.0.2"
   },
   "packageManager": "yarn@3.2.3"
 }

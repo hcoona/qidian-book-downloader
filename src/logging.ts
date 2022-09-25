@@ -1,5 +1,11 @@
-import { LFService, LoggerFactoryOptions, LogGroupRule, LogLevel } from "typescript-logging";
+import { LogLevel } from "typescript-logging";
+import { Log4TSProvider } from "typescript-logging-log4ts-style";
 
-export const loggerFactory = LFService.createLoggerFactory(
-  new LoggerFactoryOptions()
-    .addLogGroupRule(new LogGroupRule(new RegExp(".+"), LogLevel.Debug)));
+export const loggerFactory = Log4TSProvider.createProvider(
+  "QiDianBookDownloaderLogProvider",
+  {
+    level: LogLevel.Debug,
+    groups: [{
+      expression: new RegExp(".+"),
+    }]
+  });
