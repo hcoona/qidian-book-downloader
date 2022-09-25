@@ -20,5 +20,6 @@
     "promise-retry": "^1.1.1",
     "puppeteer-core": "^1.18.1",
     "typescript-logging": "^0.6.3"
-  }
+  },
+  "packageManager": "yarn@3.2.3"
 }
