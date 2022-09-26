@@ -105,7 +105,7 @@ export class Downloader {
   private async catalog(): Promise<ICatalogInformation> {
     const page = await this.browser.newPage();
     try {
-      await page.goto(`https://book.qidian.com/info/${this.options.bookId}#Catalog`);
+      await page.goto(`https://book.qidian.com/info/${this.options.bookId}#Catalog`, { waitUntil: 'networkidle' });
 
       const bookInfo = await page.$("div.book-info");
       const h1 = await bookInfo.$("h1");
