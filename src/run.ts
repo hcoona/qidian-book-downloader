@@ -5,7 +5,7 @@ import {
   CommandLineStringParameter,
 } from "@rushstack/ts-command-line";
 import * as fs from "fs";
-import * as puppeteer from "puppeteer-core";
+import * as playwright from "playwright-core";
 import { Downloader, IArticleInformation } from "./downloader";
 
 export class RunAction extends CommandLineAction {
@@ -24,8 +24,7 @@ export class RunAction extends CommandLineAction {
   }
 
   protected async onExecute() { // abstract
-    const browser = await puppeteer.launch({
-      executablePath: this.chrome.value,
+    const browser = await playwright.chromium.launch({
       headless: !this.noChromeHeadless.value,
     });
     try {
@@ -36,12 +35,6 @@ export class RunAction extends CommandLineAction {
   }
 
   protected onDefineParameters(): void { // abstract
-    this.chrome = this.defineStringParameter({
-      argumentName: "CHROME",
-      description: "The path of Chrome/Chromium browser executor.",
-      parameterLongName: "--chrome",
-      parameterShortName: "-c",
-    });
     this.noChromeHeadless = this.defineFlagParameter({
       description: "Launch Chrome/Chromium browser not in headless mode.",
       parameterLongName: "--no-chrome-headless",
@@ -66,7 +59,7 @@ export class RunAction extends CommandLineAction {
     });
   }
 
-  private async run(browser: puppeteer.Browser) {
+  private async run(browser: playwright.Browser) {
     const downloader = new Downloader(browser, {
       bookId: this.bookId.value,
       password: this.password.value,

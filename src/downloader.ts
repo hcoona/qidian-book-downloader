@@ -1,6 +1,6 @@
 import { TokenBucket } from "limiter";
 import promiseRetry = require("promise-retry");
-import * as puppeteer from "puppeteer-core";
+import * as playwright from "playwright-core";
 import { loggerFactory } from "./logging";
 
 const logger = loggerFactory.getLogger("downloader");
@@ -28,11 +28,11 @@ export interface IArticleSubsectionInformation {
 }
 
 export class Downloader {
-  private browser: puppeteer.Browser;
+  private browser: playwright.Browser;
   private throttler: TokenBucket;
   private options: IDownloaderOptions;
 
-  constructor(browser: puppeteer.Browser, options: IDownloaderOptions) {
+  constructor(browser: playwright.Browser, options: IDownloaderOptions) {
     this.browser = browser;
     this.throttler = new TokenBucket({
       bucketSize: 5,
@@ -91,8 +91,8 @@ export class Downloader {
     const page = await this.browser.newPage();
     try {
       await page.goto("https://passport.qidian.com/");
-      await page.type("#username", this.options.username);
-      await page.type("#password", this.options.password);
+      await page.fill("#username", this.options.username);
+      await page.fill("#password", this.options.password);
       await Promise.all([
         page.waitForNavigation(),
         page.click(".login-button"),
@@ -111,6 +111,8 @@ export class Downloader {
       const h1 = await bookInfo.$("h1");
       const bookTitle = await h1.$eval("em", (em) => em.textContent);
       const authorName = await h1.$eval("a.writer", (a) => a.textContent);
+
+      logger.info("bookTitle=" + bookTitle + ", authorName=" + authorName);
 
       const volumes = await page.$$("div.volume");
       const sections = await Promise.all(volumes.map(async (volume, index) => {
